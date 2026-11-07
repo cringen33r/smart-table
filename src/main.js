@@ -37,11 +37,12 @@ function collectState() {
  * @param {HTMLButtonElement?} action
  */
 async function render(action) {
-    let state = collectState(); // состояние полей из таблицы
+    const state = collectState(); // состояние полей из таблицы
     let query = {};
     // @done: использование
     query = applySearching(query, state, action);
     query = applyFiltering(query, state, action);
+    query = applySorting(query, state, action);
     query = applyPagination(query, state, action);
 
     const {total, items} = await api.getRecords(query);
