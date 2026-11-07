@@ -40,8 +40,10 @@ async function render(action) {
     let state = collectState(); // состояние полей из таблицы
     let query = {};
     // @done: использование
+    query = applyPagination(query, state, action);
 
     const {total, items} = await api.getRecords(query);
+    updatePagination(total, query);
 
     sampleTable.render(items)
 }
@@ -61,7 +63,7 @@ const applySorting = initSorting([
     sampleTable.header.elements.sortByTotal
 ]);
 
-const applyPagination = initPagination(
+const {applyPagination, updatePagination} = initPagination(
     sampleTable.pagination.elements,
     (el, page, isCurrent) => {
         const input = el.querySelector('input');
